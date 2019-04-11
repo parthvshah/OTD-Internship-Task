@@ -7,10 +7,22 @@
     <p>Given a source and destination stop, it outputs the sequence of stops for zero hop routes or one hop routes.</p>
     <p>The information provided is the start stop, intermediate stops and final stop with respective stop sequence which
       indicates the position of these stops on a particular route.</p>
+    <p>Approach: A 2D matrix holds information about all the routes and stops on these routes. This is done by assigning
+      a row in
+      this for each unique route. Each column is assigned a unique stop.
+      If a stop (column) exists on a particular route (row), it is indicated by it's stop sequence, an integer. If the
+      stop does not exist on a particular route, it holds -1. </p>
+    <p>To find information about a zero stop route, we query the particular row with the source stop. We check if the
+      column corresponding to the destination is not -1. This gives us a zero stop route.
+      To find information about a one stop route, we query a particular row with the source stop. We then check
+      sequentially for a route that have the destination stop. These source, destination pairs of routes can be used to
+      find the sequence of stops required for transit. This is achieved by iterating through the two obtained routes and
+      looking for a common stop. Then a sequence of stops is built on each route.</p>
     <p>Assumption: The route information is bi-directional as no direction information was present in the given file.
     </p>
     <p>Information: For a one hop route, it displays only one of the possibly many routes.</p>
-    <p>Improvement: For the different routes, the route information can be added. The text box can be fed the stops so that a user can directly enter a stop name.</p>
+    <p>Improvement: For the different routes, the route information can be added. The text box can be fed the stops so
+      that a user can directly enter a stop name. The user inteface is a WIP.</p>
     <h4>
       <p>Created by Parth Shah (parthvshah@gmail.com). Find the code <a
           href="https://github.com/parthvshah/OTD-Internship-Task">here.</a> Find out more about me at <a
