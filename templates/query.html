@@ -10,7 +10,7 @@
     <p>Assumption: The route information is bi-directional as no direction information was present in the given file.
     </p>
     <p>Information: For a one hop route, it displays only one of the possibly many routes.</p>
-    <p>Improvement: For the different routes, the route information can be added.</p>
+    <p>Improvement: For the different routes, the route information can be added. The text box can be fed the stops so that a user can directly enter a stop name.</p>
     <h4>
       <p>Created by Parth Shah (parthvshah@gmail.com). Find the code <a
           href="https://github.com/parthvshah/OTD-Internship-Task">here.</a> Find out more about me at <a
@@ -19,9 +19,10 @@
 
 
   </div>
+  <p>Click <a href="http://localhost:5000/id">here</a> to find out the ID of a particular stop.</p>
   <form action="http://localhost:5000/" method="POST">
-    <p>Source <input type="text" name="source_id" required /></p>
-    <p>Destination <input type="text" name="dest_id" required /></p>
+    <p>Source Stop ID: <input type="text" name="source_id" required /></p>
+    <p>Destination Stop ID: <input type="text" name="dest_id" required /></p>
     <p><input type="submit" value="Submit" /></p>
   </form>
   <div>

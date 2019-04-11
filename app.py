@@ -4,8 +4,10 @@ app = Flask(__name__)
 
 no_cols = 3601+1 # Number of stops (3465)
 no_rows = 525+1  # Number of routes (543)
+no_stops = 3601+1
 
 array = [[-1 for x in range(no_cols)] for y in range(no_rows)]
+stops = ["-1" for _ in range(no_stops)]
 
 def generateArray():
    print("[Info] Generating array...")
@@ -40,9 +42,37 @@ def generateArray():
 
 def generateStops():
    print("[Info] Generating Stops...")
+   rows = []
+
+   with open('stops.csv', 'r') as csvfile: 
+      csvreader = csv.reader(csvfile)
+      
+      fields = next(csvreader) 
+
+      for row in csvreader: 
+         rows.append(row) 
+
+      exists_count = 0
+      error_count = 0
+      for row in rows:
+         stop_id = int(row[0])
+         name = row[2].strip()
+
+         try:
+            if(stops[stop_id]!="-1"):
+                  # print("Error: Exists", name)
+                  exists_count += 1
+            else:
+                  stops[stop_id] = name
+         except IndexError:
+            # print("Error: ", stop_id, name)
+            error_count += 1
+      # print(error_count, exists_count)
+
+
    print("[Info] Stops generated.")
 
-def decodeStops(route_stop):
+def decodeZeroStops(route):
    pass
 
 def zero_hop(source_id, dest_id):
@@ -135,6 +165,10 @@ def query():
    else:
       return render_template("query.html")
    return render_template("query.html")
+
+@app.route('/id')
+def id():
+   return render_template("id.html")
 
 if __name__ == '__main__':
    generateArray()
