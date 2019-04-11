@@ -15,9 +15,7 @@ with open('unique_routes_id.csv', 'r') as csvfile:
   
     for row in csvreader: 
         rows.append(row) 
-  
-    # print("Total no. of rows: %d"%(csvreader.line_num))
-    # print('Field names are:' + ', '.join(field for field in fields))
+
     error_count = 0
     exists_count = 0
     for row in rows:
@@ -27,14 +25,14 @@ with open('unique_routes_id.csv', 'r') as csvfile:
         
         try:
             if(array[trip_id][stop_id]!=-1):
-                print("Error: Exists", trip_id, stop_id, stop)
+                # print("Error: Exists", trip_id, stop_id, stop)
                 exists_count += 1
             else:
                 array[trip_id][stop_id] = stop
         except IndexError:
-            print("Error: ", trip_id, stop_id)
+            # print("Error: ", trip_id, stop_id)
             error_count += 1
-    print(error_count, exists_count)
+    # print(error_count, exists_count)
     
     
     # for i in range(no_rows):

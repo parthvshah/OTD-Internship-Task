@@ -1,13 +1,30 @@
-<!doctype html>
 <html>
-   <body>
-      <table border = 1>
-         {% for key, value in result.items() %}
-            <tr>
-               <th> {{ key }} </th>
-               <td> {{ value }} </td>
-            </tr>
-         {% endfor %}
-      </table>
-   </body>
+<body>
+  
+  <form action="http://localhost:5000/result.html" method="POST">
+    <p>Source <input type="text" name="source_id" required /></p>
+    <p>Destination <input type="text" name="dest_id" required /></p>
+    <p><input type="submit" value="Submit" /></p>
+  </form>
+  <div>
+    {% if zero_result %}
+
+    {% for value in zero_result %}
+    {{ value }}<br />
+    {% endfor %}
+
+    {% endif %}
+  </div>
+
+  <div>
+    {% if one_result %}
+
+    {% for value in one_result %}
+    {{ value }}<br />
+    {% endfor %}
+
+    {% endif %}
+  </div>
+</body>
+
 </html>

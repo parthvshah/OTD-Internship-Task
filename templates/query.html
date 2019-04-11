@@ -1,11 +1,51 @@
 <html>
-   <body>
-      <form action = "http://localhost:5000/result" method = "POST">
-         <p>Name <input type = "text" name = "Name" /></p>
-         <p>Physics <input type = "text" name = "Physics" /></p>
-         <p>Chemistry <input type = "text" name = "chemistry" /></p>
-         <p>Maths <input type ="text" name = "Mathematics" /></p>
-         <p><input type = "submit" value = "submit" /></p>
-      </form>
-   </body>
+
+<body>
+  <div>
+    <h3>IIIT Delhi - Open Transit Data</h3>
+    <p>This is a mock up for the Open Transit Data task assigned by IIIT Delhi.</p>
+    <p>Given a source and destination stop, it outputs the sequence of stops for zero hop routes or one hop routes.</p>
+    <p>The information provided is the start stop, intermediate stops and final stop with respective stop sequence which
+      indicates the position of these stops on a particular route.</p>
+    <p>Assumption: The route information is bi-directional as no direction information was present in the given file.
+    </p>
+    <p>Information: For a one hop route, it displays only one of the possibly many routes.</p>
+    <p>Improvement: For the different routes, the route information can be added.</p>
+    <h4>
+      <p>Created by Parth Shah (parthvshah@gmail.com). Find the code <a
+          href="https://github.com/parthvshah/OTD-Internship-Task">here.</a> Find out more about me at <a
+          href="https://parthvshah.me">parthvshah.me</a></p>
+    </h4>
+
+
+  </div>
+  <form action="http://localhost:5000/" method="POST">
+    <p>Source <input type="text" name="source_id" required /></p>
+    <p>Destination <input type="text" name="dest_id" required /></p>
+    <p><input type="submit" value="Submit" /></p>
+  </form>
+  <div>
+    <h4>Zero hops path</h4>
+    {% if zero_result %}
+
+    {% for value in zero_result %}
+    {{ value }}<br />
+    {% endfor %}
+
+    {% endif %}
+  </div>
+
+  <div>
+    <h4>One hop path</h4>
+
+    {% if one_result %}
+
+    {% for value in one_result %}
+    {{ value }}<br />
+    {% endfor %}
+
+    {% endif %}
+  </div>
+</body>
+
 </html>
