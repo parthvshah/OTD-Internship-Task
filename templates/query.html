@@ -1,12 +1,13 @@
 <html>
 
-<body>
+<body style="margin-left: 5%; margin-right: 5%; margin-top: 1%; margin-bottom: 1%">
   <div>
     <h3>IIIT Delhi - Open Transit Data</h3>
-    <p>This is a mock up for the Open Transit Data task assigned by IIIT Delhi.</p>
+    <p>This is a mock up for the Open Transit Data task assigned by IIIT Delhi. The task was to find out the zero or one
+      hop paths from a source to a destination stop entered by a user.</p>
     <p>Given a source and destination stop, it outputs the sequence of stops for zero hop routes or one hop routes.</p>
-    <p>The information provided is the start stop, intermediate stops and final stop with respective stop sequence which
-      indicates the position of these stops on a particular route.</p>
+    <p>The information provided is the start stop, intermediate stops and final stop for each possible route with the
+      route ID.</p>
     <p>Approach: A 2D matrix holds information about all the routes and stops on these routes. This is done by assigning
       a row in
       this for each unique route. Each column is assigned a unique stop.
@@ -14,14 +15,15 @@
       stop does not exist on a particular route, it holds -1. </p>
     <p>To find information about a zero stop route, we query the particular row with the source stop. We check if the
       column corresponding to the destination is not -1. This gives us a zero stop route.
-      To find information about a one stop route, we query a particular row with the source stop. We then check
-      sequentially for a route that have the destination stop. These source, destination pairs of routes can be used to
-      find the sequence of stops required for transit. This is achieved by iterating through the two obtained routes and
-      looking for a common stop. Then a sequence of stops is built on each route.</p>
+      To find information about a one stop route, all possible combinations of routes which have source stop in one
+      route, destination stop in another and with one common stop are generated. This is obtained by iterating through
+      the routes to find combinations and then the stops to find a common stop for each combination. THis gives us a one
+      stop route.</p>
     <p>Assumption: The route information is bi-directional as no direction information was present in the given file.
     </p>
-    <p>Improvement: For the different routes, the route information can be added. The user inteface is a WIP. The stops
-      array can be added using javascript for the input elements. Optimization by pairing certain functions and reducing iterations.</p>
+    <p>Improvement: For the different routes, the route information can be added such as fare. The user inteface is a WIP. This is just a mock up with no concern for UI. The stops
+      array can be added using javascript for the input elements. Optimization by pairing certain functions and reducing
+      iterations. The generation of one hop routes can be optimized from it's current imlementation.</p>
     <h4>
       <p>Created by Parth Shah (parthvshah@gmail.com). Find the code <a
           href="https://github.com/parthvshah/OTD-Internship-Task">here.</a> Find out more about me at <a
@@ -30,14 +32,14 @@
 
 
   </div>
-  <p>Click <a href="http://localhost:5000/id">here</a> to find out the ID of a particular stop.</p>
+  <!-- <p>Click <a href="http://localhost:5000/id">here</a> to find out the ID of a particular stop.</p> -->
   <form action="http://localhost:5000/" method="POST">
     <p>Source Stop ID: <input list="stops" name="source_id" required /></p>
     <p>Destination Stop ID: <input list="stops" name="dest_id" required /></p>
     <p><input type="submit" value="Submit" /></p>
   </form>
   <div>
-    <h4>Zero hops path</h4>
+    <h4>Zero hop paths:</h4>
     {% if zero_result %}
 
     {% for value in zero_result %}
@@ -50,7 +52,7 @@
   </div>
 
   <div>
-    <h4>One hop path</h4>
+    <h4>One hop paths:</h4>
 
     {% if one_result %}
 
