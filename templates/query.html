@@ -20,10 +20,8 @@
       looking for a common stop. Then a sequence of stops is built on each route.</p>
     <p>Assumption: The route information is bi-directional as no direction information was present in the given file.
     </p>
-    <p>Information: For a one hop route, it displays only one of the possibly many routes.</p>
-    <p>Improvement: For the different routes, the route information can be added. The text box can be fed the stops so
-      that a user can directly enter a stop name. The user inteface is a WIP. The stops array can be added using
-      javascript for the input elements.</p>
+    <p>Improvement: For the different routes, the route information can be added. The user inteface is a WIP. The stops
+      array can be added using javascript for the input elements. Optimization by pairing certain functions and reducing iterations.</p>
     <h4>
       <p>Created by Parth Shah (parthvshah@gmail.com). Find the code <a
           href="https://github.com/parthvshah/OTD-Internship-Task">here.</a> Find out more about me at <a
@@ -57,7 +55,9 @@
     {% if one_result %}
 
     {% for value in one_result %}
+    <pre>
     {{ value }}<br />
+    </pre>
     {% endfor %}
 
     {% endif %}

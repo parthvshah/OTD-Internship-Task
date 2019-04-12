@@ -72,8 +72,6 @@ def generateStops():
 
    print("[Info] Stops generated.")
 
-def decodeZeroStops(route):
-   pass
 
 def zero_hop(source_id, dest_id):
    possible_routes = []
@@ -95,46 +93,89 @@ def zero_hop(source_id, dest_id):
       print(route_exists)
       return route_exists
 
+def find_route_pairs(source_id, dest_id):
+   possible_pairs = []
+
+   for i in range(no_rows):
+      for ii in range(i,no_rows):
+         if(array[i][source_id]!=-1 and array[ii][dest_id]!=-1 and i != ii):
+            possible_pairs.append([i, ii])
+
+   if(len(possible_pairs)!=0):
+      # print(possible_pairs)
+      return possible_pairs
+   else:
+      # print("False")
+      return False
+
+
+def find_common_route_pairs(possible_pairs):
+   common_pairs = []
+
+   for pair in possible_pairs:
+      source_route_id = pair[0]
+      dest_route_id = pair[1]
+
+      for j in range(no_stops):
+         if(array[source_route_id][j]!=-1 and array[dest_route_id][j]!=-1):
+            common_pairs.append([source_route_id,dest_route_id,j])
+               
+
+   if(len(common_pairs)!=0):
+      # print(common_pairs)
+      return common_pairs
+   else:
+      # print("False")
+      return False
+
+def find_seq_common_route_pairs(unique_pairs, source_id, dest_id):
+   seq_pairs = []
+
+   for pair in unique_pairs:
+      source_route_id = pair[0]
+      dest_route_id = pair[1]
+      common_stop_id = pair[2]
+
+      stop_seq1 = array[source_route_id][source_id]
+      stop_seq2 = array[source_route_id][common_stop_id]
+      stop_seq3 = array[dest_route_id][common_stop_id]
+      stop_seq4 = array[dest_route_id][dest_id]
+
+      if(stop_seq1 <= stop_seq2 and stop_seq3 <= stop_seq4):
+         seq_pairs.append([source_route_id, dest_route_id, (stop_seq1, stop_seq2, stop_seq3, stop_seq4)])
+
+      
+
+   if(len(seq_pairs)!=0):
+      # print(seq_pairs)
+      return seq_pairs
+   else:
+      # print("False")
+      return False
+
 
 def one_hop(source_id, dest_id):
-   return False
    possible_routes = []
    route_exists = False
 
-   # if(source_id >= no_cols or source_id <= no_cols or dest_id >= no_cols or dest_id <= no_cols):
-   #    return False
-
-   source_route = False
-   dest_route = False
-   for i in range(no_rows):
-      route = array[i]
-      if(route[source_id] != -1):
-         source_route = [i, route[source_id], route]
-      if(route[dest_id] != -1):
-         dest_route = [i, route[dest_id], route]
-   
-   if(source_route == False or dest_route == False):
+   pairs = find_route_pairs(source_id, dest_id)
+   if(pairs == False):
       return False
-   else:
-      route_exists = True
+   unique_pairs = find_common_route_pairs(pairs)
+   if(unique_pairs == False):
+      return False
+   seq_pairs = find_seq_common_route_pairs(unique_pairs, source_id, dest_id)
+   if(seq_pairs == False):
+      return False
 
-   source_common_stop = 0
-   dest_common_stop = 0
-   for j in range(no_cols):
-      if(source_route[2][j] != -1 and dest_route[2][j] != -1):
-         source_common_stop = source_route[2][j]
-         dest_common_stop = dest_route[2][j]
-   
-   source_route[2] = source_common_stop
-   dest_route[2] = dest_common_stop
-
-
+   route_exists = True
    if(route_exists):
-      print([source_route, dest_route])
-      return [source_route, dest_route]
+      print(seq_pairs)
+      return seq_pairs
    else:
-      print(route_exists)
-      return route_exists
+      # print("False")
+      return False
+
 
 def createZeroResult(possible_routes):
    resultArray = []
@@ -161,6 +202,43 @@ def createZeroResult(possible_routes):
 
    return resultArray
 
+def createOneResult(possible_routes):
+   resultArray = []
+   source_stop_str = ""
+   dest_stop_str = ""
+
+   for route in possible_routes:
+      source_route_id = route[0]
+      dest_route_id = route[1]
+      stop_seq1 = route[2][0]
+      stop_seq2 = route[2][1]
+      stop_seq3 = route[2][2]
+      stop_seq4 = route[2][3]
+
+      
+      source_stop_seq = range(stop_seq1, stop_seq2+1, 1)
+      dest_stop_seq = range(stop_seq3, stop_seq4+1, 1)
+      
+      for stop_val1 in source_stop_seq:
+         for i in range(no_cols):
+            if(array[source_route_id][i]==stop_val1):
+               source_stop_str += stops[i] + "\n"
+      
+
+      resultArray.append("Route ID: "+str(source_route_id)+" \nSequence: "+source_stop_str)
+      source_stop_str = ""
+
+      for stop_val2 in dest_stop_seq:
+         for j in range(no_cols):
+            if(array[dest_route_id][j]==stop_val2):
+               dest_stop_str += stops[j] + "\n"
+      
+
+      resultArray.append("Route ID: "+str(dest_route_id)+" \nSequence: "+dest_stop_str)
+      dest_stop_str = ""
+
+   return resultArray
+
 @app.route('/',methods = ['POST', 'GET'])
 def query():
    if request.method == 'POST':
@@ -178,7 +256,7 @@ def query():
       if(one_result==False):
          one_result = ['There are no 1 hop routes for given source and destination.']
       else:
-         one_result = createResult(one_result)
+         one_result = createOneResult(one_result)
       
 
       return render_template("query.html", zero_result=zero_result, one_result=one_result)
