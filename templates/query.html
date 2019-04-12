@@ -22,7 +22,8 @@
     </p>
     <p>Information: For a one hop route, it displays only one of the possibly many routes.</p>
     <p>Improvement: For the different routes, the route information can be added. The text box can be fed the stops so
-      that a user can directly enter a stop name. The user inteface is a WIP.</p>
+      that a user can directly enter a stop name. The user inteface is a WIP. The stops array can be added using
+      javascript for the input elements.</p>
     <h4>
       <p>Created by Parth Shah (parthvshah@gmail.com). Find the code <a
           href="https://github.com/parthvshah/OTD-Internship-Task">here.</a> Find out more about me at <a
@@ -42,7 +43,9 @@
     {% if zero_result %}
 
     {% for value in zero_result %}
+    <pre>
     {{ value }}<br />
+    </pre>
     {% endfor %}
 
     {% endif %}

@@ -27,11 +27,14 @@ with open(filename, 'r') as csvfile:
     print(len(trip_id_arr))
     
     count = -1
+    stop_counter = 0
     for row in rows:
         trip_id = int(row[0].strip())
         stop_id = int(row[1].strip())
         stop = int(row[2].strip())
         if(stop==0):
             count += 1
-        print(count, ", ", stop_id, ", ", stop, sep="")
+            stop_counter = 0
+        print(count, ", ", stop_id, ", ", stop_counter, sep="")
+        stop_counter += 1
     

@@ -13,8 +13,6 @@ with open(filename, 'r') as csvfile:
   
     for row in csvreader: 
         rows.append(row) 
-  
-    print("Total no. of rows: %d"%(csvreader.line_num))
-    print('Field names are:' + ', '.join(field for field in fields))
+
     for row in rows: 
         print(row[0],", ", row[3], ", ",row[4],sep="")

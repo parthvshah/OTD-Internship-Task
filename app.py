@@ -97,6 +97,7 @@ def zero_hop(source_id, dest_id):
 
 
 def one_hop(source_id, dest_id):
+   return False
    possible_routes = []
    route_exists = False
 
@@ -135,10 +136,29 @@ def one_hop(source_id, dest_id):
       print(route_exists)
       return route_exists
 
-def createResult(possible_routes):
+def createZeroResult(possible_routes):
    resultArray = []
+   stop_str = ""
    for route in possible_routes:
-      resultArray.append("Route: "+str(route[0])+" Value: "+str(route[1])+" "+str(route[2]))
+      route_id = route[0]
+      val1 = route[1]
+      val2 = route[2]
+
+      if(val1>val2):
+         stop_seq = range(val1,val2-1,-1)
+      else:
+         stop_seq = range(val1, val2+1, 1)
+         
+      
+      for stop_val in stop_seq:
+         for i in range(no_cols):
+            if(array[route_id][i]==stop_val):
+               stop_str += stops[i] + "\n"
+      
+
+      resultArray.append("Route ID: "+str(route_id)+" \nSequence: "+stop_str)
+      stop_str = ""
+
    return resultArray
 
 @app.route('/',methods = ['POST', 'GET'])
@@ -154,7 +174,7 @@ def query():
       if(zero_result==False):
          zero_result = ['There are no 0 hop routes for given source and destination.']
       else:
-         zero_result = createResult(zero_result)
+         zero_result = createZeroResult(zero_result)
       if(one_result==False):
          one_result = ['There are no 1 hop routes for given source and destination.']
       else:
